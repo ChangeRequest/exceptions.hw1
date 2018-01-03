@@ -45,7 +45,7 @@ Implement AccountTransactionManager which allows to execute several operations a
 There two methods:
  
 1. **execute** - executes array of operations. Do not guaranty that all operations are executed without errors and do not revert previous operations in case of errors.
-2. **executeInTransaction** - executes array of operations in transactions. Guaranty that ALL operations are executed or none of them (in case of any error). Should disable autoCommit after execution.
+2. **executeInTransaction** - executes array of operations in transactions. Guaranty that ALL operations are executed or none of them (in case of any error). Should enable autoCommit after execution.
 
 4 Cafe
 ------
