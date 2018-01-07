@@ -4,6 +4,7 @@ import school.lemon.changerequest.java.banking.BankAccount;
 
 public class BankAccountImpl implements BankAccount {
 
+    protected static final double DEFAULT_RATE = 0.01;
     private static int numberOfAccounts = 0;
 
     protected double balance;
@@ -11,11 +12,11 @@ public class BankAccountImpl implements BankAccount {
     protected final int accountNumber;
 
     public BankAccountImpl() {
-        this(0, 0.01);
+        this(0, DEFAULT_RATE);
     }
 
     public BankAccountImpl(double balance) {
-        this(balance, 0.01);
+        this(balance, DEFAULT_RATE);
     }
 
     public BankAccountImpl(double balance, double rate) throws IllegalArgumentException {
@@ -24,12 +25,6 @@ public class BankAccountImpl implements BankAccount {
         this.balance = balance;
         this.rate = rate;
         accountNumber = numberOfAccounts++;
-    }
-
-    public BankAccountImpl(TransactionalBankAccountImpl obj) {
-        balance = obj.getBalance();
-        rate = obj.getRate();
-        accountNumber = obj.getAccountNumber();
     }
 
     /**

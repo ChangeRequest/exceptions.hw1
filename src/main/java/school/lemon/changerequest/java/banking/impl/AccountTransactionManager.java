@@ -22,6 +22,34 @@ public class AccountTransactionManager {
      * @param operations array of account operations
      */
     public void execute(BankOperation[] operations) {
+        try {
+            executeOperations(operations);
+        } catch (IllegalArgumentException e) {
+
+        }
+    }
+
+    /**
+     * Execute bunch of operations in one transaction.
+     * In case of any exception all previous operations should be reverted and original exception should be thrown.
+     * {@code autoCommit} should be enabled in any case.
+     *
+     * @param operations array of account operations
+     */
+    public void executeInTransaction(BankOperation[] operations) throws IllegalArgumentException {
+        try {
+            bankAccount.commit();
+            bankAccount.setAutoCommit(false);
+            executeOperations(operations);
+        } catch (IllegalArgumentException e) {
+            bankAccount.revert();
+            throw e;
+        } finally {
+            bankAccount.setAutoCommit(true);
+        }
+    }
+
+    private void executeOperations(BankOperation[] operations) throws IllegalArgumentException {
         for (BankOperation operation : operations) {
             switch (operation.getType()) {
                 case ADD_INTEREST: {
@@ -42,28 +70,6 @@ public class AccountTransactionManager {
                 }
             }
         }
-    }
-
-    /**
-     * Execute bunch of operations in one transaction.
-     * In case of any exception all previous operations should be reverted and original exception should be thrown.
-     * {@code autoCommit} should be enabled in any case.
-     *
-     * @param operations array of account operations
-     */
-    public void executeInTransaction(BankOperation[] operations) throws IllegalArgumentException {
-
-        try {
-            bankAccount.commit();
-            bankAccount.setAutoCommit(false);
-            execute(operations);
-        } catch (IllegalArgumentException e) {
-            bankAccount.revert();
-            throw e;
-        } finally {
-            bankAccount.setAutoCommit(true);
-        }
-
     }
 
 

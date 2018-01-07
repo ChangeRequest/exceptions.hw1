@@ -12,7 +12,7 @@ public class Client {
     private final Random random = new Random();
 
     public void drinkCoffee(Drink drink) throws IncorrectDrinkException, LowTemperatureException,
-            HighTemperatureException, RandomClientException {
+            HighTemperatureException, UnsatisfiedClientException {
         if (drink.getDrinkType() != DrinkType.COFFEE) {
             throw new IncorrectDrinkException("Tastes like a " + drink.getDrinkType());
         } else if (drink.getTemperature() < LOWEST_TEMPERATURE) {
@@ -20,7 +20,7 @@ public class Client {
         } else if (drink.getTemperature() > HIGHEST_TEMPERATURE) {
             throw new HighTemperatureException("Looks like it's too hot...", drink.getTemperature());
         } else if (random.nextInt(100) < 10) {
-            throw new RandomClientException("I don't like your Cafe!");
+            throw new UnsatisfiedClientException("I don't like your Cafe!");
         } else {
             System.out.println("Delicious, thank you.");
         }

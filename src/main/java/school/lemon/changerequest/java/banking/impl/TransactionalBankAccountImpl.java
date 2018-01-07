@@ -4,21 +4,31 @@ import school.lemon.changerequest.java.banking.TransactionalBankAccount;
 
 public class TransactionalBankAccountImpl extends BankAccountImpl implements TransactionalBankAccount {
 
-    private BankAccountImpl latestCommit;
+    class BankAccountBuffer {
+        double rate;
+        double balance;
+
+        BankAccountBuffer(TransactionalBankAccount obj) {
+            rate = obj.getRate();
+            balance = obj.getBalance();
+        }
+    }
+
+    BankAccountBuffer latestCommit;
     private boolean autoCommit = true;
 
 
     public TransactionalBankAccountImpl() {
-        this(0, 0);
+        this(0, BankAccountImpl.DEFAULT_RATE);
     }
 
     public TransactionalBankAccountImpl(double balance) {
-        this(balance, 0.01);
+        this(balance, BankAccountImpl.DEFAULT_RATE);
     }
 
     public TransactionalBankAccountImpl(double balance, double rate) {
         super(balance, rate);
-        latestCommit = new BankAccountImpl(this);
+        latestCommit = new BankAccountBuffer(this);
     }
 
     /**
@@ -42,16 +52,20 @@ public class TransactionalBankAccountImpl extends BankAccountImpl implements Tra
      * Commits all uncommitted operations
      */
     public void commit() {
-        latestCommit.balance = balance;
-        latestCommit.rate = rate;
+        if (!autoCommit) {
+            latestCommit.balance = balance;
+            latestCommit.rate = rate;
+        }
     }
 
     /**
      * Revert all uncommitted operations
      */
     public void revert() {
-        balance = latestCommit.balance;
-        rate = latestCommit.rate;
+        if (!autoCommit) {
+            balance = latestCommit.balance;
+            rate = latestCommit.rate;
+        }
     }
 
     @Override
@@ -80,5 +94,13 @@ public class TransactionalBankAccountImpl extends BankAccountImpl implements Tra
         super.withdraw(sum);
         if (autoCommit)
             commit();
+    }
+
+    void setLatestCommit(BankAccountBuffer newCommit) {
+        latestCommit = newCommit;
+    }
+
+    BankAccountBuffer getLatestCommit() {
+        return latestCommit;
     }
 }

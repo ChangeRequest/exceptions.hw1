@@ -1,15 +1,8 @@
 package school.lemon.changerequest.java.cafe.exceptions;
 
-public class HighTemperatureException extends ClientException {
-
-    private int temperature;
+public class HighTemperatureException extends TemperatureException {
 
     public HighTemperatureException(String message, int temperature) {
-        super(message);
-        this.temperature = temperature;
-    }
-
-    int getTemperature() {
-        return temperature;
+        super(message, temperature);
     }
 }

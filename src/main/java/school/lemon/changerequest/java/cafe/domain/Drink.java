@@ -22,4 +22,8 @@ public class Drink {
         this.temperature = temperature;
     }
 
+    public void setDrinkType(DrinkType drinkType) {
+        this.drinkType = drinkType;
+    }
+
 }
