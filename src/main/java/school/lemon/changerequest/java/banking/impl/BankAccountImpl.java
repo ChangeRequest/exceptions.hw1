@@ -4,7 +4,7 @@ import school.lemon.changerequest.java.banking.BankAccount;
 
 public class BankAccountImpl implements BankAccount {
 
-    protected static final double DEFAULT_RATE = 0.01;
+    protected static final double DEFAULT_RATE = 1;
     private static int numberOfAccounts = 0;
 
     protected double balance;
@@ -94,7 +94,7 @@ public class BankAccountImpl implements BankAccount {
      * E.g.: rate = 10% and balance = 200$ -> interest = 20$. So, new balance is 120$.
      */
     public void addInterest() {
-        balance += balance * rate;
+        balance += balance * rate / 100;
     }
 
 
@@ -102,7 +102,9 @@ public class BankAccountImpl implements BankAccount {
      * @return account information in the following format: Account #123, ($10.32).
      */
     public String toString() {
-        String result = String.format("Account #%d, ($%.2f)", accountNumber, balance);
+        int intPart = (int) balance;
+        int fractPart = (int) ((balance - intPart) * 100);
+        String result = String.format("Account #%d, ($%d.%d)", accountNumber, intPart, fractPart);
         return result;
     }
 }

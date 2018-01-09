@@ -52,20 +52,17 @@ public class TransactionalBankAccountImpl extends BankAccountImpl implements Tra
      * Commits all uncommitted operations
      */
     public void commit() {
-        if (!autoCommit) {
-            latestCommit.balance = balance;
-            latestCommit.rate = rate;
-        }
+        latestCommit.balance = balance;
+        latestCommit.rate = rate;
     }
+
 
     /**
      * Revert all uncommitted operations
      */
     public void revert() {
-        if (!autoCommit) {
-            balance = latestCommit.balance;
-            rate = latestCommit.rate;
-        }
+        balance = latestCommit.balance;
+        rate = latestCommit.rate;
     }
 
     @Override
