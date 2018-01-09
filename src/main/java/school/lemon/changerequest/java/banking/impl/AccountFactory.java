@@ -10,19 +10,19 @@ public final class AccountFactory {
 
     /**
      * Creates bank account
+     *
      * @return bank account
      */
     public static BankAccount createBankAccount() {
-        //TODO: implement me
-        return null;
+        return new BankAccountImpl();
     }
 
     /**
      * Creates transactional bank account
+     *
      * @return transactional bank account
      */
     public static TransactionalBankAccount createTransactionalBankAccount() {
-        //TODO: implement me
-        return null;
+        return new TransactionalBankAccountImpl();
     }
 }

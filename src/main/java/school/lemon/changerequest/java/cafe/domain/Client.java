@@ -1,5 +1,7 @@
 package school.lemon.changerequest.java.cafe.domain;
 
+import school.lemon.changerequest.java.cafe.exceptions.*;
+
 import java.util.Random;
 
 public class Client {
@@ -9,15 +11,16 @@ public class Client {
 
     private final Random random = new Random();
 
-    public void drinkCoffee(Drink drink) {
+    public void drinkCoffee(Drink drink) throws IncorrectDrinkException, LowTemperatureException,
+            HighTemperatureException, UnsatisfiedClientException {
         if (drink.getDrinkType() != DrinkType.COFFEE) {
-            System.out.println("Tastes like a " + drink.getDrinkType());
+            throw new IncorrectDrinkException("Tastes like a " + drink.getDrinkType());
         } else if (drink.getTemperature() < LOWEST_TEMPERATURE) {
-            System.out.println("Looks like it's too cold...");
+            throw new LowTemperatureException("Looks like it's too cold...", drink.getTemperature());
         } else if (drink.getTemperature() > HIGHEST_TEMPERATURE) {
-            System.out.println("Looks like it's too hot...");
+            throw new HighTemperatureException("Looks like it's too hot...", drink.getTemperature());
         } else if (random.nextInt(100) < 10) {
-            System.out.println("I don't like your Cafe!");
+            throw new UnsatisfiedClientException("I don't like your Cafe!");
         } else {
             System.out.println("Delicious, thank you.");
         }

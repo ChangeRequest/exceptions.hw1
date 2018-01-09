@@ -17,4 +17,13 @@ public class Drink {
     public int getTemperature() {
         return temperature;
     }
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+
+    public void setDrinkType(DrinkType drinkType) {
+        this.drinkType = drinkType;
+    }
+
 }
